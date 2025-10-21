@@ -462,3 +462,4 @@ if __name__ == "__main__":
         print(f"\nError durante la ejecucion: {e}")
         import traceback
         traceback.print_exc()
+
