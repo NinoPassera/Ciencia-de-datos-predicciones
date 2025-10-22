@@ -25,7 +25,7 @@ def main():
     print(f"Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
     # -------------------- Controles de rendimiento --------------------
-    MAX_ROWS    = None   # p.ej., 80000 para acelerar; None = usar todo
+    MAX_ROWS    = 80000   # p.ej., 80000 para acelerar; None = usar todo
     RANDOM_SEED = 42
     CV_FOLDS    = 5
     # -----------------------------------------------------------------
@@ -55,8 +55,9 @@ def main():
     ]
     features = features_originales + features_mejoradas
 
-    X = df[features].fillna(0)
+    X = df[features].fillna(0).astype(np.float32)  # float32 reduce a la mitad la RAM
     y = df['destino'].astype(str)
+
 
     print(f"\nFeatures originales: {len(features_originales)}")
     print(f"Features mejoradas: {len(features_mejoradas)}")
@@ -88,6 +89,7 @@ def main():
         min_samples_leaf=1,
         max_features=0.5,
         bootstrap=True,
+        max_samples=0.8, 
         oob_score=True,          # métrica adicional sin CV
         class_weight=None,       # cambiar a 'balanced_subsample' si hay desbalance fuerte
         random_state=RANDOM_SEED,
